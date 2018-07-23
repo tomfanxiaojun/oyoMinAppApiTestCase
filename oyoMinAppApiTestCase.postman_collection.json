@@ -1,0 +1,423 @@
+{
+	"info": {
+		"_postman_id": "e6825caf-ac9d-49b0-a0da-11e28821035a",
+		"name": "oyoMinAppApiTestCase",
+		"description": "OYO 小程序 API接口自动化测试项目",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Step 1 S1 Init Data",
+			"description": "初始化项目数据",
+			"item": [
+				{
+					"name": "init data",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "7f9d22a3-4081-49a3-b62d-2be7b9430640",
+								"type": "text/javascript",
+								"exec": [
+									"// 所有的环境变量，如果要添加新的变量值,只需要在这里配置即可",
+									"const ENVS = {",
+									"    API_ROOT: 'https://api.oyohotels.cn/api',",
+									"    VERSION: 'v2',",
+									"    ACCESS_TOKEN: 'emZUbzl3aUdLcXZnWWZGcUJkbnQ6cmN6N0Q0elkxbTY3c3FSby14VzY',",
+									"    PHONE: '15919969627',",
+									"    ContentType: 'application/json'",
+									"}",
+									"// 生成一个随机的错误的手机号码",
+									"function getRandomPhone () {",
+									"    let ERROR_PHONE = '';",
+									"    let RANDO_STR = \"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz\";",
+									"    for(let i =0 ; i< 11; i++ ) {",
+									"        let randomNum = RANDO_STR.charAt(Math.floor(Math.random()*RANDO_STR.length));",
+									"        ERROR_PHONE = ERROR_PHONE + randomNum;",
+									"    }",
+									"    return ERROR_PHONE;",
+									"}",
+									"ENVS.ERROR_PHONE = getRandomPhone();",
+									"// 一开始清除所有的环境变量",
+									"pm.environment.clear();",
+									"/*",
+									"循环ENVS变量，将对应的属性都写入到环境变量中",
+									"**/",
+									"Object.keys(ENVS).forEach(key => {",
+									"    pm.environment.set(key, ENVS[key]);",
+									"})",
+									"//pm.environment.set(\"ACCESS_TOKEN\", \"emZUbzl3aUdLcXZnWWZGcUJkbnQ6cmN6N0Q0elkxbTY3c3FSby14VzY\");",
+									"//pm.environment.set(\"PHONE\", \"15919969627\");",
+									"// pm.environment.set('ERROR_PHONE', Array(10).fill(1).map(() =>  Math.floor(Math.random()*10)).join('')+'A');",
+									"// pm.environment.set('ERROR_PHONE', getRandomPhone());",
+									"",
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "76a2a8fb-ccc3-4889-bc47-5efa3519800f",
+								"type": "text/javascript",
+								"exec": [
+									"var PHONE = pm.environment.get(\"PHONE\");",
+									"var ACCESS_TOKEN  = pm.environment.get(\"ACCESS_TOKEN\");",
+									"pm.test('PHONE should not be empty' , () => {",
+									"    pm.expect(PHONE).to.be.an('string');",
+									"    pm.expect(PHONE).to.equal('15919969627')",
+									"});",
+									"",
+									"/* ",
+									"() => {} ES6 箭头函数，类似：",
+									"function () {",
+									"    ",
+									"}",
+									"pm.test('ACCESS_TOKEN should not be empty' , function (){",
+									"    pm.expect(ACCESS_TOKEN).to.be.an('string');",
+									"});",
+									"",
+									"**/",
+									"pm.test('ACCESS_TOKEN should not be empty' , () => {",
+									"    pm.expect(ACCESS_TOKEN).to.be.an('string');",
+									"});",
+									"",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "{{API_ROOT}}/{{VERSION}}",
+							"host": [
+								"{{API_ROOT}}"
+							],
+							"path": [
+								"{{VERSION}}"
+							]
+						},
+						"description": "初始化数据"
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e93e8aa4-4e30-47f4-a1cc-3b1f72e2d88f",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1de7e3cb-f258-4f86-a97b-feb57be34f32",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Step 2 generate_otp",
+			"description": "获取验证码API测试用例",
+			"item": [
+				{
+					"name": "generate_otp_pos",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4c4e922e-d67f-4c3d-9048-97f336fe5d6d",
+								"type": "text/javascript",
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"/*",
+									"pm.test(参数1， 参数2)；是调用一个方法",
+									"参数1: 描叙这个测试用例，一些描叙信息",
+									"参数2：测试用例里面的所有断言，希望什么等于什么",
+									"**/",
+									"pm.test('Response is an object', () => {",
+									"    var req = pm.response.json();",
+									"    pm.expect(req['status']).to.be.equal('correct');",
+									"    pm.expect(req['is_user_present']).to.be.equal(true);",
+									"    pm.expect(req['user_name']).to.be.equal('Guest');",
+									"    ",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									"",
+									"console.log(pm.environment.get(\"PHONE\"));"
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "access_token",
+								"value": "{{ACCESS_TOKEN}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{API_ROOT}}/{{VERSION}}/users/generate_otp?phone={{PHONE}}&nod=6&intent=login&country_code=%2B86&version=139&partner_app_version=139&idfa=c711036a-64e3-4e09-b4f9-74a37b4d4cad&sid=1530762984047",
+							"host": [
+								"{{API_ROOT}}"
+							],
+							"path": [
+								"{{VERSION}}",
+								"users",
+								"generate_otp"
+							],
+							"query": [
+								{
+									"key": "phone",
+									"value": "{{PHONE}}"
+								},
+								{
+									"key": "nod",
+									"value": "6"
+								},
+								{
+									"key": "intent",
+									"value": "login"
+								},
+								{
+									"key": "country_code",
+									"value": "%2B86"
+								},
+								{
+									"key": "version",
+									"value": "139"
+								},
+								{
+									"key": "partner_app_version",
+									"value": "139"
+								},
+								{
+									"key": "idfa",
+									"value": "c711036a-64e3-4e09-b4f9-74a37b4d4cad"
+								},
+								{
+									"key": "sid",
+									"value": "1530762984047"
+								}
+							]
+						},
+						"description": "根据手机号码获取验证码"
+					},
+					"response": []
+				},
+				{
+					"name": "generate_otp_neg",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b255a93f-61de-4f9b-8c80-f19b56ea792d",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test(\"Status code is 200\", function() {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('Response is an object', () => {",
+									"    var req = pm.response.json();",
+									"    pm.expect(req['status']).to.be.equal('correct');",
+									"    pm.expect(req['is_user_present']).to.be.equal(false);",
+									"    pm.expect(req['user_name']).to.be.equal('Guest');",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "access_token",
+								"value": "{{ACCESS_TOKEN}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{API_ROOT}}/{{VERSION}}/users/generate_otp?phone={{ERROR_PHONE}}",
+							"host": [
+								"{{API_ROOT}}"
+							],
+							"path": [
+								"{{VERSION}}",
+								"users",
+								"generate_otp"
+							],
+							"query": [
+								{
+									"key": "phone",
+									"value": "{{ERROR_PHONE}}"
+								}
+							]
+						},
+						"description": "根据错误的手机号码获取验证码"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Step 3 hotels",
+			"description": "获取酒店详情API",
+			"item": [
+				{
+					"name": "search hotels",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4dc624c6-d442-4b0f-9205-602fc706461a",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Successful response', () => {",
+									"    // assertSuccessfulResponse(pm.response, 200);",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"// pm.expect(req['status']).to.be.equal('correct');",
+									"",
+									"pm.test('The API will return search hotels results', () => {",
+									" ",
+									"    let resp = pm.response.json();",
+									"    pm.expect(resp.count).to.be.an('number');",
+									"    let hotels = resp.hotels;",
+									"    let count = resp.count;",
+									"    pm.expect(hotels.length).to.be.equal(count);",
+									"    ",
+									"    let ids = hotels.reduce((init, h) => ",
+									"        { ",
+									"            init.push(h.id) ;",
+									"            return init;",
+									"        }",
+									"    , []);",
+									"    pm.environment.set(\"HOTEL_IDS\", ids);",
+									"",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "access_token",
+								"value": "{{ACCESS_TOKEN}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{API_ROOT}}/{{VERSION}}/search/hotels",
+							"host": [
+								"{{API_ROOT}}"
+							],
+							"path": [
+								"{{VERSION}}",
+								"search",
+								"hotels"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get hotel details by id",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "0984b7f9-d9f3-411d-974c-34f0ed049a6e",
+								"type": "text/javascript",
+								"exec": [
+									" let hotelIds = pm.environment.get(\"HOTEL_IDS\");",
+									" let id = Math.floor(Math.random() *hotelIds.length);",
+									"  pm.environment.set(\"HOTEL_ID\", hotelIds[id]);"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "f79c9e1f-9ae6-4c51-b9c8-a629231d26e0",
+								"type": "text/javascript",
+								"exec": [
+									"pm.test('Successful response', () => {",
+									"    // assertSuccessfulResponse(pm.response, 200);",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"// pm.expect(req['status']).to.be.equal('correct');",
+									"",
+									"pm.test('The API will return search hotels results', () => {",
+									" ",
+									"    let resp = pm.response.json();",
+									"    //ID should be a number",
+									"    pm.expect(resp.id).to.be.an('number');",
+									"    // request ID should be equal response id.",
+									"    pm.expect(resp.id).to.be.equal(pm.environment.get(\"HOTEL_ID\"));",
+									"    // response should have the follow propertys .",
+									"    let expectPropertys = ['name', 'address', 'id', 'oyo_id'];",
+									"    // 遍历期望的属性，判断是否在返回的结果中存在该属性，如果不存在，测试用例就失败。",
+									"    expectPropertys.forEach(key => {",
+									"        pm.expect(Object.keys(resp).includes(key)).to.be.true;",
+									"    })",
+									"    ",
+									"});",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "access_token",
+								"value": "{{ACCESS_TOKEN}}"
+							}
+						],
+						"body": {},
+						"url": {
+							"raw": "{{API_ROOT}}/{{VERSION}}/hotels/{{HOTEL_ID}}",
+							"host": [
+								"{{API_ROOT}}"
+							],
+							"path": [
+								"{{VERSION}}",
+								"hotels",
+								"{{HOTEL_ID}}"
+							]
+						},
+						"description": "根据指定ID获取对应酒店的详细信息"
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
